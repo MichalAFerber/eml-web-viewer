@@ -113,7 +113,10 @@
   .body-bar{ display:flex; align-items:center; gap:.6rem; padding:.45rem .8rem; background:var(--surface); border-bottom:1px solid var(--border) }
   .body-tag{ font-size:.68rem; font-weight:700; letter-spacing:.04em; padding:.16rem .45rem; border-radius:6px; background:#7c3aed; color:#fff }
   .body-tag.solo{ display:inline-block; margin:.6rem 0 -.2rem .85rem }
-  .body-note{ color:var(--muted); font-size:.78rem }
+  .img-toggle{ font:inherit; font-size:.76rem; font-weight:600; cursor:pointer; padding:.2rem .6rem; border:1px solid var(--border); border-radius:999px; background:transparent; color:var(--text); line-height:1.3 }
+  .img-toggle:hover{ background:var(--border) }
+  .img-toggle[aria-pressed="true"]{ background:#7c3aed; border-color:#7c3aed; color:#fff }
+  .body-note{ color:var(--muted); font-size:.78rem; margin-left:auto }
   .eml-frame{ width:100%; border:0; display:block; min-height:180px; background:#fff }
   .eml-text{ margin:0; padding:.8rem 1rem 1rem; white-space:pre-wrap; word-break:break-word; font:14px/1.55 ui-monospace,Menlo,Consolas,monospace; color:var(--text); background:transparent }
   .eml-text a{ color:#7c3aed }
@@ -2226,22 +2229,34 @@ return He}()
   function renderBody(m){
     var wrap = el("div", "eml-body");
     if (m.html != null && m.html !== ""){
+      var showRemote = false;
       var bar = el("div", "body-bar");
       var tag = el("span", "body-tag"); tag.textContent = "HTML"; bar.appendChild(tag);
-      var note = el("span", "body-note"); note.textContent = "Remote images blocked for privacy"; bar.appendChild(note);
+      var btn = doc.createElement("button"); btn.className = "img-toggle"; btn.type = "button";
+      btn.setAttribute("aria-pressed", "false");
+      bar.appendChild(btn);
+      var note = el("span", "body-note"); bar.appendChild(note);
       wrap.appendChild(bar);
       var frame = doc.createElement("iframe");
       frame.className = "eml-frame";
       frame.setAttribute("sandbox", "allow-same-origin");
       frame.setAttribute("referrerpolicy", "no-referrer");
       frame.setAttribute("title", "Message body");
-      var csp = '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; img-src data:; style-src \'unsafe-inline\' data:; font-src data:; media-src data:">';
       var css = '<style>html,body{margin:0;padding:12px;font:15px/1.55 -apple-system,system-ui,Segoe UI,sans-serif;color:#111;background:#fff;word-wrap:break-word;overflow-wrap:break-word}img{max-width:100%;height:auto}a{color:#2563eb}table{max-width:100%}</style>';
-      frame.srcdoc = '<!doctype html><html><head><meta charset="utf-8">' + csp + css + '</head><body>' + m.html + '</body></html>';
+      function paint(){
+        var imgSrc = showRemote ? "data: https:" : "data:";
+        var csp = '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; img-src ' + imgSrc + '; style-src \'unsafe-inline\' data:; font-src data:; media-src data:">';
+        frame.srcdoc = '<!doctype html><html><head><meta charset="utf-8">' + csp + css + '</head><body>' + m.html + '</body></html>';
+        btn.textContent = showRemote ? "Blocking off" : "Load remote images";
+        btn.setAttribute("aria-pressed", showRemote ? "true" : "false");
+        note.textContent = showRemote ? "remote content allowed" : "remote images blocked for privacy";
+      }
       frame.onload = function(){
         try { var d = frame.contentDocument; var hgt = (d && d.body ? d.body.scrollHeight : 420) + 30; frame.style.height = Math.min(hgt, 6000) + "px"; }
         catch (e){ frame.style.height = "70vh"; }
       };
+      btn.addEventListener("click", function(){ showRemote = !showRemote; paint(); });
+      paint();
       wrap.appendChild(frame);
     } else if (m.text != null && m.text !== ""){
       var t = el("div", "body-tag solo"); t.textContent = "Text"; wrap.appendChild(t);
