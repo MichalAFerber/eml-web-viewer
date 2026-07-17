@@ -1,0 +1,6 @@
+# eml-viewer.us shows no advertising and authorizes no programmatic sellers or
+# resellers of ad inventory. This file intentionally declares an empty
+# authorized-sellers list (IAB ads.txt) so that no third party can spoof
+# inventory on our behalf.
+#
+# There are no authorized sellers.

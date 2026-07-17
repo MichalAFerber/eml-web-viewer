@@ -79,6 +79,7 @@ cryptographic verification.
 | Component | Version | License |
 | --- | --- | --- |
 | [highlight.js](https://github.com/highlightjs/highlight.js) | 11.9.0 | BSD-3-Clause |
+| [JetBrains Mono](https://github.com/JetBrains/JetBrainsMono) (subset, `fonts/`) | 2.304 | SIL OFL-1.1 |
 
 The MIME parser and auth analysis are original to this project. Envelope icon
 by the author. Analytics by [Plausible](https://plausible.io/).

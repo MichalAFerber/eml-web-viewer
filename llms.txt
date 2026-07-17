@@ -1,0 +1,13 @@
+# EML Viewer
+
+> A fast, single-file email viewer. Drop an .eml to read the message, headers and attachments — with SPF, DKIM and DMARC authentication analysis. Nothing uploaded.
+
+The viewer is one self-contained HTML file (no build step) and works offline. Files never leave the visitor's device — no uploads, no accounts, no server-side processing.
+
+## Links
+
+- [Open the viewer](https://eml-viewer.us/)
+- [GitHub](https://github.com/MichalAFerber/eml-web-viewer): Source (single index.html)
+- [File Viewer family hub](https://file-viewer.us/): All viewers in the family
+- [Privacy Policy](https://file-viewer.us/privacy.html)
+- [Terms of Use](https://file-viewer.us/terms.html)
