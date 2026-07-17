@@ -1,0 +1,18 @@
+{
+  "name": "EML Viewer",
+  "short_name": "EML Viewer",
+  "description": "A fast, single-file email viewer. Drop an .eml to read the message, headers and attachments \u2014 with SPF, DKIM and DMARC authentication analysis. Nothing uploaded.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
